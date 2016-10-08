@@ -41,6 +41,9 @@ ENV PATH "/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/:$PATH"
 RUN sudo apt install -y python
 RUN cd $HOME && git clone https://github.com/JasonL9000/ib
 USER root
+RUN apt install -y gcc-avr binutils-avr avr-libc
+RUN apt install -y arduino-mk
 CMD cd /data && \
-  ib raspi-phone-tools/main && \
+  ib raspi-phone-tools/raspi-phone-tools --out_root out && \
+  cd phone-controller && ./scripts/build.sh && cd .. && \
   bash
