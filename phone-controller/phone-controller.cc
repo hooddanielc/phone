@@ -1,6 +1,8 @@
+// An AVR program I hopefully don't have to make :)
+
 #include <avr/io.h>
 #include <util/delay.h>
- 
+
 #define BLINK_DELAY_MS 100
  
 int main (void) {

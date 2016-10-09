@@ -45,5 +45,5 @@ RUN apt install -y gcc-avr binutils-avr avr-libc
 RUN apt install -y arduino-mk
 CMD cd /data && \
   ib raspi-phone-tools/raspi-phone-tools --out_root out && \
-  cd phone-controller && ./scripts/build.sh && cd .. && \
-  bash
+  ib raspi-phone-tools/file-test --out_root out && \
+  cd phone-controller && ./scripts/build.sh && cd ..
