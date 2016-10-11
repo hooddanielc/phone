@@ -9,6 +9,21 @@ namespace phone {
 
   std::unique_ptr<file_t> file_t::make(const char *path, int flags) {
     int new_fd = open(path, flags);
+
+    if (new_fd == -1) {
+      throw std::system_error(errno, std::system_category());
+    }
+
+    return std::move(std::unique_ptr<file_t>(new file_t(new_fd)));
+  }
+
+  std::unique_ptr<file_t> file_t::make(const char *path, int flags, int permission) {
+    int new_fd = open(path, flags, permission);
+
+    if (new_fd == -1) {
+      throw std::system_error(errno, std::system_category());
+    }
+
     return std::move(std::unique_ptr<file_t>(new file_t(new_fd)));
   }
 
@@ -16,8 +31,7 @@ namespace phone {
     struct termios tty;
 
     if (tcgetattr(fd, &tty) < 0) {
-      printf("Error from tcgetattr: %s\n", strerror(errno));
-      // throw and error! return -1;
+      throw std::system_error(errno, std::system_category());
     }
 
     cfsetospeed(&tty, (speed_t)speed);
@@ -40,8 +54,7 @@ namespace phone {
     tty.c_cc[VTIME] = 1;
 
     if (tcsetattr(fd, TCSANOW, &tty) != 0) {
-      printf("Error from tcsetattr: %s\n", strerror(errno));
-      // throw an error! return -1;
+      throw std::system_error(errno, std::system_category());
     }
   }
 
@@ -50,15 +63,34 @@ namespace phone {
     memset (&tty, 0, sizeof tty);
 
     if (tcgetattr (fd, &tty) != 0) {
-      // Throw an error! error_message ("error %d from tggetattr", errno);
-      return;
+      throw std::system_error(errno, std::system_category());
     }
 
     tty.c_cc[VMIN]  = should_block ? 1 : 0;
     tty.c_cc[VTIME] = 5;
 
     if (tcsetattr (fd, TCSANOW, &tty) != 0) {
-      // Throw an error! error_message ("error %d setting term attributes", errno);
+      throw std::system_error(errno, std::system_category());
     }
+  }
+
+  size_t file_t::write(const char *str, size_t count) {
+    int result = ::write(fd, str, count);
+
+    if (result < 0) {
+      throw std::system_error(errno, std::system_category());
+    }
+
+    return result;
+  }
+
+  char * file_t::read(char *str, size_t count) {
+    int result = ::read(fd, str, count);
+
+    if (result < 0) {
+      throw std::system_error(errno, std::system_category());
+    }
+
+    return str;
   }
 }

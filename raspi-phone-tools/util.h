@@ -6,11 +6,16 @@
 #include <string.h>
 #include <iostream>
 
+#ifdef __APPLE__
+  #include <mach-o/dyld.h>
+#endif
+
 namespace phone {
-  const int PATH_MAX = 100;
   std::string exec_path();
   std::string join_path(const std::vector<std::string> &parts);
   std::vector<std::string> split(const char *s, const char *c);
   std::vector<std::string> split_path(const char *s);
   std::string dirname();
+  bool path_exists(const char *path);
+  void unlink(const char *path);
 }

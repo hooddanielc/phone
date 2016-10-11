@@ -1,0 +1,78 @@
+@import 'reset'
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro)
+
+body
+  font-family: Source Sans Pro
+
+button
+  cursor: pointer
+
+  &:hover
+    filter: blur(5px)
+
+  &:active
+    filter: blur(5px)
+    background: #666
+
+header
+  height: calc(100vh * .15)
+  position: relative
+  background: #eee
+  text-align: center
+  font-size: calc(100vh * .05)
+
+  button
+    font-size: calc(100vh * .05)
+    background: initial
+    outline: initial
+    border: initial
+
+  button.context-menu-btn
+    position: absolute
+    left: 20px
+    top: 50%
+    transform: translateY(-50%)
+
+  button.backspace-btn
+    position: absolute
+    right: 20px
+    top: 50%
+    transform: translateY(-50%)
+
+  .number-line
+    width: 100%
+    position: absolute
+    left: 50%
+    top: 50%
+    transform: translate(-50%, -50%)
+
+    input
+      text-align: center
+      width: 100%
+      background: initial
+      outline: initial
+      border: initial
+      font-size: calc(100vh * .05)
+
+.number-pad-wrapper
+  .number-pad
+    width: 80%
+    margin: 0px auto
+    overflow: hidden
+    height: calc(100vh * .85)
+
+    button
+      text-align: center
+      width: 33.333%
+      float: left
+      margin: initial
+      padding: initial
+      border: initial
+      outline: initial
+      background: initial
+      height: 25%
+      display: block
+      font-size: calc(100vh * .15)
+
+      &:active
+        background: #666

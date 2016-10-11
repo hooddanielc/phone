@@ -1,0 +1,22 @@
+header
+  button.context-menu-btn
+    i{ action 'showMenuPress' } ∆
+  .number-line
+    input value=input
+  button.backspace-btn
+    i{ action 'backspaceButtonPress' } ∆
+
+.number-pad-wrapper
+  .number-pad
+    button{ action 'numpadButtonPress' '1' } 1
+    button{ action 'numpadButtonPress' '2' } 2
+    button{ action 'numpadButtonPress' '3' } 3
+    button{ action 'numpadButtonPress' '4' } 4
+    button{ action 'numpadButtonPress' '5' } 5
+    button{ action 'numpadButtonPress' '6' } 6
+    button{ action 'numpadButtonPress' '7' } 7
+    button{ action 'numpadButtonPress' '8' } 8
+    button{ action 'numpadButtonPress' '9' } 9
+    button{ action 'numpadButtonPress' '*' } *
+    button{ action 'numpadButtonPress' '0' } 0
+    button{ action 'numpadButtonPress' '#' } #

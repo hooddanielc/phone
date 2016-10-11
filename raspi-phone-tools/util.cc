@@ -2,9 +2,22 @@
 
 namespace phone {
   std::string exec_path() {
-    char result[PATH_MAX];
-    size_t count = readlink("/proc/self/exe", result, PATH_MAX);
-    return std::string{ result, count };
+    #ifdef __linux__
+      char result[PATH_MAX];
+      size_t count = readlink("/proc/self/exe", result, PATH_MAX);
+      return std::string{ result, count };
+    #endif
+
+    #ifdef __APPLE__
+      char path[PATH_MAX];
+      uint32_t size = sizeof(path);
+
+      if (_NSGetExecutablePath(path, &size) != 0) {
+        throw "buffer too small for the executable path";
+      }
+
+      return std::string{ path };
+    #endif
   }
 
   std::vector<std::string> split(const char *s, const char *c) {
@@ -51,7 +64,17 @@ namespace phone {
 
   std::string dirname() {
     auto parts = split_path(exec_path().c_str());
-    parts.erase(parts.end());
+    parts.erase(parts.end() - 1);
     return join_path(parts);
+  }
+
+  bool path_exists(const char *path) {
+    return access(path, F_OK) != -1;
+  }
+
+  void unlink(const char *path) {
+    if (::unlink(path) == -1) {
+
+    }
   }
 }
