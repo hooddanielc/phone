@@ -3,6 +3,7 @@
   "dependencies": {
     "ember": "~2.8.0",
     "ember-cli-shims": "0.1.1",
-    "reset-scss": "^2.0.2"
+    "reset-scss": "^2.0.2",
+    "font-awesome": "~4.5.0"
   }
 }

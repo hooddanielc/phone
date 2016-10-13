@@ -3,23 +3,21 @@
 
 body
   font-family: Source Sans Pro
+  background: linear-gradient(to bottom, rgba(221,221,221,1) 0%,#C48FA9 50%,rgba(198,111,155,1) 100%);
 
 button
   cursor: pointer
 
-  &:hover
-    filter: blur(5px)
-
   &:active
     filter: blur(5px)
-    background: #666
+    background: radial-gradient(ellipse at center, rgba(183,67,121,1) 0%,rgba(198,111,155,0.01) 99%,rgba(198,111,155,0) 100%)
 
 header
   height: calc(100vh * .15)
   position: relative
-  background: #eee
   text-align: center
   font-size: calc(100vh * .05)
+  border-bottom: 1px solid #fff
 
   button
     font-size: calc(100vh * .05)
@@ -61,7 +59,7 @@ header
     overflow: hidden
     height: calc(100vh * .85)
 
-    button
+    & > button
       text-align: center
       width: 33.333%
       float: left
@@ -70,9 +68,37 @@ header
       border: initial
       outline: initial
       background: initial
-      height: 25%
+      height: calc(100% / 5)
       display: block
-      font-size: calc(100vh * .15)
+      font-size: calc(100vh * .075)
 
       &:active
-        background: #666
+        filter: blur(5px)
+        background: radial-gradient(ellipse at center, rgba(181,105,139,1) 0%,rgba(193,109,150,0) 70%,rgba(198,111,155,0) 100%)
+
+    footer
+      height: calc(100% / 5)
+      width: 100%
+      float: left
+      div
+        float: left
+        width: calc(100% / 3)
+        position: relative
+        height: 100%
+        button
+          background: #d96d7d
+          position: absolute
+          left: 50%
+          top: 50%
+          transform: translate(-50%, -50%)
+          height: calc(100vh * .10)
+          width: calc(100vh * .10)
+          padding: 0
+          border: 0
+          outline: 0
+          border-radius: 100%
+          font-size: 100vh * .045
+          box-shadow: inset 0px 6px 2px 0px rgba(0, 0, 0, 0.42), 0px 5px 10px #4c323f
+          color: #fff
+          text-shadow: 1px 4px 6px #666, 0 0 0 #000, 1px 4px 6px #000;
+

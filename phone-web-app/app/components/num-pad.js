@@ -10,7 +10,6 @@ export default Ember.Component.extend({
 
   actions: {
     showMenuPress: function () {
-      console.log('showMenuPress');
       this.$('input').focus();
     },
 
@@ -22,6 +21,18 @@ export default Ember.Component.extend({
     numpadButtonPress: function (num) {
       this.set('input', this.get('input') + num);
       this.$('input').focus();
+    },
+
+    call: function () {
+      console.log('call');
+    },
+
+    email: function () {
+      console.log('email');
+    },
+
+    add: function () {
+      console.log('add');
     }
   }
 });

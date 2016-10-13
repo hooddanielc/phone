@@ -1,8 +1,8 @@
 header
-  button.context-menu-btn
-    i{ action 'showMenuPress' } ∆
   .number-line
     input value=input
+  button.context-menu-btn
+    i{ action 'showMenuPress' } = fa-icon "ellipsis-v"
   button.backspace-btn
     i{ action 'backspaceButtonPress' } ∆
 
@@ -20,3 +20,10 @@ header
     button{ action 'numpadButtonPress' '*' } *
     button{ action 'numpadButtonPress' '0' } 0
     button{ action 'numpadButtonPress' '#' } #
+    footer
+      div
+        button.email{ action 'email' } = fa-icon "envelope"
+      div
+        button.phone{ action 'call' } = fa-icon "phone"
+      div
+        button.add{ action 'add' } = fa-icon "user-plus"
