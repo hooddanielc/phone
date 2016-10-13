@@ -3,102 +3,185 @@
 
 body
   font-family: Source Sans Pro
-  background: linear-gradient(to bottom, rgba(221,221,221,1) 0%,#C48FA9 50%,rgba(198,111,155,1) 100%);
 
-button
-  cursor: pointer
-
-  &:active
-    filter: blur(5px)
-    background: radial-gradient(ellipse at center, rgba(183,67,121,1) 0%,rgba(198,111,155,0.01) 99%,rgba(198,111,155,0) 100%)
-
-header
-  height: calc(100vh * .15)
-  position: relative
-  text-align: center
-  font-size: calc(100vh * .05)
-  border-bottom: 1px solid #fff
-
-  button
-    font-size: calc(100vh * .05)
-    background: initial
-    outline: initial
-    border: initial
-
-  button.context-menu-btn
-    position: absolute
-    left: 20px
-    top: 50%
-    transform: translateY(-50%)
-
-  button.backspace-btn
-    position: absolute
-    right: 20px
-    top: 50%
-    transform: translateY(-50%)
-
-  .number-line
+.contacts
+  header
     width: 100%
-    position: absolute
-    left: 50%
-    top: 50%
-    transform: translate(-50%, -50%)
+    height: calc(100vh * .2)
+    position: relative
+    background: #0f0
 
-    input
-      text-align: center
-      width: 100%
-      background: initial
-      outline: initial
-      border: initial
-      font-size: calc(100vh * .05)
+    .input-contacts
+      position: relative
+      height: 60%
 
-.number-pad-wrapper
-  .number-pad
-    width: 80%
-    margin: 0px auto
-    overflow: hidden
-    height: calc(100vh * .85)
+      button
+        width: calc(100vh * .07)
+        height: calc(100vh * .07)
 
-    & > button
-      text-align: center
-      width: 33.333%
-      float: left
-      margin: initial
-      padding: initial
-      border: initial
-      outline: initial
-      background: initial
-      height: calc(100% / 5)
-      display: block
-      font-size: calc(100vh * .075)
+      button.search
+        position: absolute
+        top: 50%
+        transform: translateY(-50%)
+      button.ellipsis-v
+        position: absolute
+        right: 5%
+        top: 50%
+        transform: translateY(-50%)
+      button.microphone
+        position: absolute
+        right: 0
+        top: 50%
+        transform: translateY(-50%)
 
-      &:active
-        filter: blur(5px)
-        background: radial-gradient(ellipse at center, rgba(181,105,139,1) 0%,rgba(193,109,150,0) 70%,rgba(198,111,155,0) 100%)
+      input
+        position: absolute
+        width: calc(100vw * .96)
+        display: block
+        left: 50%
+        top: 50%
+        transform: translate(-50%, -50%)
+        outline: 0
+        border: 0
+        line-height: calc(100vh * .07)
+        border-radius: 3px
+        padding-left: calc(100vh * .05)
+        padding-right: calc(100vh * .05)
+        box-sizing: border-box
+        font-size: calc(100vh * .03)
 
-    footer
-      height: calc(100% / 5)
-      width: 100%
-      float: left
-      div
-        float: left
-        width: calc(100% / 3)
+    .helper-tabs
+      height: 40%
+      .tab
         position: relative
         height: 100%
-        button
-          background: #d96d7d
+        outline: 0
+        border: 0
+        border-bottom: 2px solid transparent
+        background: initial
+
+        &:focus
+          border-bottom: 2px solid #fff
+          background: 0 
+          outline: 0
+
+        span
+          font-size: calc(100vh * .025)
           position: absolute
           left: 50%
           top: 50%
           transform: translate(-50%, -50%)
-          height: calc(100vh * .10)
-          width: calc(100vh * .10)
-          padding: 0
-          border: 0
-          outline: 0
-          border-radius: 100%
-          font-size: 100vh * .045
-          box-shadow: inset 0px 6px 2px 0px rgba(0, 0, 0, 0.42), 0px 5px 10px #4c323f
-          color: #fff
-          text-shadow: 1px 4px 6px #666, 0 0 0 #000, 1px 4px 6px #000;
+          white-space: nowrap
+
+  .helper-tabs
+    .tab
+      float: left
+      width: calc(100% / 3)
+      button
+        border: 0
+        background: 0
+        display: block
+
+        &.active
+          border-bottom: 1px solid #eee
+
+.num-pad
+  background: linear-gradient(to bottom, rgba(221,221,221,1) 0%,#C48FA9 50%,rgba(198,111,155,1) 100%);
+
+  button
+    cursor: pointer
+
+    &:active
+      filter: blur(5px)
+      background: radial-gradient(ellipse at center, rgba(183,67,121,1) 0%,rgba(198,111,155,0.01) 99%,rgba(198,111,155,0) 100%)
+
+  header
+    height: calc(100vh * .15)
+    position: relative
+    text-align: center
+    font-size: calc(100vh * .05)
+    border-bottom: 1px solid #fff
+
+    button
+      font-size: calc(100vh * .05)
+      background: initial
+      outline: initial
+      border: initial
+
+    button.context-menu-btn
+      position: absolute
+      left: 20px
+      top: 50%
+      transform: translateY(-50%)
+
+    button.backspace-btn
+      position: absolute
+      right: 20px
+      top: 50%
+      transform: translateY(-50%)
+
+    .number-line
+      width: 100%
+      position: absolute
+      left: 50%
+      top: 50%
+      transform: translate(-50%, -50%)
+
+      input
+        text-align: center
+        width: 100%
+        background: initial
+        outline: initial
+        border: initial
+        font-size: calc(100vh * .05)
+
+  .number-pad-wrapper
+    .number-pad
+      width: 80%
+      margin: 0px auto
+      overflow: hidden
+      height: calc(100vh * .85)
+
+      & > button
+        text-align: center
+        width: 33.333%
+        float: left
+        margin: initial
+        padding: initial
+        border: initial
+        outline: initial
+        background: initial
+        height: calc(100% / 5)
+        display: block
+        font-size: calc(100vh * .075)
+
+        &:active
+          filter: blur(5px)
+          background: radial-gradient(ellipse at center, rgba(181,105,139,1) 0%,rgba(193,109,150,0) 70%,rgba(198,111,155,0) 100%)
+
+      footer
+        height: calc(100% / 5)
+        width: 100%
+        float: left
+        div
+          float: left
+          width: calc(100% / 3)
+          position: relative
+          height: 100%
+          button
+            background: #d96d7d
+            position: absolute
+            left: 50%
+            top: 50%
+            transform: translate(-50%, -50%)
+            height: calc(100vh * .10)
+            width: calc(100vh * .10)
+            padding: 0
+            border: 0
+            outline: 0
+            border-radius: 100%
+            font-size: 100vh * .045
+            box-shadow: inset 0px 6px 2px 0px rgba(0, 0, 0, 0.42), 0px 5px 10px #4c323f
+            color: #fff
+            text-shadow: 1px 4px 6px #666, 0 0 0 #000, 1px 4px 6px #000;
 

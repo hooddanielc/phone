@@ -1,0 +1,56 @@
+header
+  .input-contacts
+    input value=input placeholder="Search contacts & places"
+    button.search = fa-icon "search"
+    button.ellipsis-v = fa-icon "ellipsis-v"
+    button.microphone = fa-icon "microphone"
+  .helper-tabs
+    button.tab.speed-dial
+      span SPEED DIAL
+    button.tab.recents
+      span RECENTS
+    button.tab.contact
+      span CONTACTS
+.contacts-list
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+  .contact
+    i = fa-icon "ellipsis-v"
+    .letter G
+    .first-name John
+    .contact-type Mobile
+
+button.num-pad-btn ∆
