@@ -16,6 +16,7 @@
 #include <sys/socket.h>
 #include <sys/param.h>
 #include <sys/stat.h>
+#include <termios.h>
 
 #ifndef PATH_MAX
  #define PATH_MAX 1024
@@ -306,6 +307,43 @@ const arg_t &throw_if_lt0(const arg_t &arg) {
 
 [[noreturn]] inline void throw_system_error() {
   throw_system_error(errno);
+}
+
+// create a file descriptor and open
+// portname
+inline fd_t make_fd_tty(const char *portname) {
+  int handle;
+  handle = ::open(portname, O_RDWR | O_NOCTTY);
+  struct termios toptions;
+  tcgetattr(handle, &toptions);
+  cfsetispeed(&toptions, B115200);
+  cfsetospeed(&toptions, B115200);
+  /* 8 bits, no parity, no stop bits */
+  toptions.c_cflag &= ~PARENB;
+  toptions.c_cflag &= ~CSTOPB;
+  toptions.c_cflag &= ~CSIZE;
+  toptions.c_cflag |= CS8;
+  /* no hardware flow control */
+  toptions.c_cflag &= ~CRTSCTS;
+  /* enable receiver, ignore status lines */
+  toptions.c_cflag |= CREAD | CLOCAL;
+  /* disable input/output flow control, disable restart chars */
+  toptions.c_iflag &= ~(IXON | IXOFF | IXANY);
+  /* disable canonical input, disable echo,
+  disable visually erase chars,
+  disable terminal-generated signals */
+  toptions.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+  /* disable output processing */
+  toptions.c_oflag &= ~OPOST;
+  /* wait for 12 characters to come in before read returns */
+  /* WARNING! THIS CAUSES THE read() TO BLOCK UNTIL ALL */
+  /* CHARACTERS HAVE COME IN! */
+  toptions.c_cc[VMIN] = 6;
+  /* no minimum time to wait before read returns */
+  toptions.c_cc[VTIME] = 0;
+  /* commit the options */
+  tcsetattr(handle, TCSANOW, &toptions);
+  return util::make_fd(handle);
 }
 
 }  // util

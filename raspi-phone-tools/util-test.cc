@@ -68,7 +68,6 @@ FIXTURE(fd_t_unlink) {
 }
 
 FIXTURE(write_and_read_exactly) {
-  std::string path;
   auto file1 = util::open_unique("/tmp");
   const char tmp[] = "The brown fox jumped over the fence";
   const int len = strlen(tmp);
@@ -79,4 +78,11 @@ FIXTURE(write_and_read_exactly) {
   tmpread[len] = '\0';
   EXPECT_EQ(std::string(tmp), std::string(tmpread));
   file1.unlink();
+}
+
+FIXTURE(write_dev_null_no_except) {
+  auto file1 = util::make_fd_tty("/dev/null");
+  const char tmp[] = "LOL IM SO COOL";
+  const int len = strlen(tmp);
+  util::write_exactly(file1, tmp, len);
 }
