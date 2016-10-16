@@ -338,7 +338,7 @@ inline fd_t make_fd_tty(const char *portname) {
   /* wait for 12 characters to come in before read returns */
   /* WARNING! THIS CAUSES THE read() TO BLOCK UNTIL ALL */
   /* CHARACTERS HAVE COME IN! */
-  toptions.c_cc[VMIN] = 6;
+  toptions.c_cc[VMIN] = 1;
   /* no minimum time to wait before read returns */
   toptions.c_cc[VTIME] = 0;
   /* commit the options */

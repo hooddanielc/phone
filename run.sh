@@ -1,1 +1,1 @@
-docker run -t -v `pwd`:/data phone
+docker run -ti -v `pwd`:/data phone

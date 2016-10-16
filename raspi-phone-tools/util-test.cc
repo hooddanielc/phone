@@ -73,7 +73,7 @@ FIXTURE(write_and_read_exactly) {
   const int len = strlen(tmp);
   util::write_exactly(file1, tmp, len);
   char tmpread[len];
-  lseek(file1, 0, SEEK_SET);
+  util::throw_if_lt0(lseek(file1, 0, SEEK_SET));
   util::read_exactly(file1, tmpread, len);
   tmpread[len] = '\0';
   EXPECT_EQ(std::string(tmp), std::string(tmpread));

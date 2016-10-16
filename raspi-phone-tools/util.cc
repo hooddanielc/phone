@@ -17,10 +17,9 @@ std::string fd_t::path() {
     return std::string{ file_path };
   #else
     char proclnk[0xFFF];
-    char filename[0xFFF];
-    sprintf(proclnk, "/proc/self/fd/%d", fileno((FILE*) get()));
-    int r;
-    r = readlink(proclnk, filename, PATH_MAX);
+    char filename[PATH_MAX];
+    sprintf(proclnk, "/proc/self/fd/%d", get());
+    auto r = readlink(proclnk, filename, PATH_MAX);
     filename[r] = '\0';
 
     if(r < 0) {
