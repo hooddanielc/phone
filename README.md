@@ -1,26 +1,15 @@
 Phone
 =====
 
-Build the docker machine
-
+Compile code for Arm Processor
 ```
-./build.sh
+docker-compose up
 ```
-
-
-Compile the code to arm
-
-```
-./run.sh
-```
-
 
 Push the code to your raspberry pi
-
 ```
-mv out <to-your-rpi>
+mv out <to-your-rpi>i
 ```
-
 
 Want to compile the tool for other platforms? Modify the common.cfg and replace cc entries with your own compiler
 
