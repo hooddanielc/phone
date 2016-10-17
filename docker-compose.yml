@@ -1,0 +1,6 @@
+builder:
+    image: 'dhoodlum/phone-docker:latest'
+    container_name: phone_builder
+    volumes:
+        - '. /data'
+    entrypoint: /data/build.sh
