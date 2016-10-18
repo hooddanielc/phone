@@ -10,6 +10,10 @@ Router.map(function() {
   this.route('index', {
     path: '/'
   }, function () {
+    this.route('index', {
+      path: '/'
+    });
+
     this.route('phone');
     this.route('contact');
   });

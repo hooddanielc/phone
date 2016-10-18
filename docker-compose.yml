@@ -1,6 +1,6 @@
 builder:
-    image: 'rudes/phone-docker:latest'
-    container_name: phone_builder
-    volumes:
-        - '. /data'
-    entrypoint: /data/build.sh
+  image: 'rudes/phone-docker:latest'
+  container_name: phone_builder
+  volumes:
+    - '$PWD:/data'
+  entrypoint: sudo /data/build.sh

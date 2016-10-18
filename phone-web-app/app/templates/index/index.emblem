@@ -1,0 +1,9 @@
+p
+  | {{#link-to "index.contact"}}
+  |    Click Here To See Contacts Application
+  | {{/link-to}}
+
+p
+  | {{#link-to "index.phone"}}
+  |    Click Here To See Phone Application
+  | {{/link-to}}
