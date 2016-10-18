@@ -1,6 +1,7 @@
 export PATH=/home/developer/ib:$PATH
+export PATH=/opt/cross/x-tools/arm-unknown-linux-gnueabi/bin/:$PATH
 
-cd /data
+cd /data && mkdir
 
 echo 'building raspi-phone-tools/raspi-phone-tools'
 ib raspi-phone-tools/raspi-phone-tools --force --out_root out
