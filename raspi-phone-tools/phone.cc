@@ -1,8 +1,6 @@
 #include <raspi-phone-tools/phone.h>
 
 namespace phone {
-  std::mutex rw_mutex;
-
   using callback_t = std::function<void(json_t::object_t)>;
   phone_t::phone_t(const char *portname) : device(util::make_fd_tty(portname)), run(true) {}
   phone_t::~phone_t() {}
@@ -17,9 +15,7 @@ namespace phone {
     tasks.push_back(std::thread([&dev](std::atomic<bool> &run) {
       while (run.load()) {
         char buff[2];
-        rw_mutex.lock();
         util::read_at_most(dev, buff, 1);
-        rw_mutex.unlock();
         buff[1] = '\0';
         std::cout << "BUFF: `" << buff << "`" << std::endl;
       }
@@ -27,16 +23,12 @@ namespace phone {
   }
 
   void phone_t::write(const std::string &msg) {
-    rw_mutex.lock();
     util::write_exactly(device, msg.c_str(), msg.size());
-    rw_mutex.unlock();
   }
 
   std::string phone_t::read(size_t count) {
-    rw_mutex.lock();
     char buff[count];
     util::read_exactly(device, buff, count);
-    rw_mutex.unlock();
     return std::string{ buff, count };
   }
 
@@ -53,10 +45,8 @@ namespace phone {
   }
 
   char phone_t::read_char() {
-    rw_mutex.lock();
     char buff[1];
-    util::read_exactly(device, buff, 1);
-    rw_mutex.unlock();
+    util::read_at_most(device, buff, 1);
     return buff[0];
   }
 

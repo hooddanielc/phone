@@ -1,56 +1,48 @@
 header
   .input-contacts
-    input value=input placeholder="Search contacts & places"
-    button.search = fa-icon "search"
-    button.ellipsis-v = fa-icon "ellipsis-v"
-    button.microphone = fa-icon "microphone"
+    .input-wrapper
+      input value=input placeholder="Search contacts & places"
+      button.search = fa-icon "search"
+      button.ellipsis-v = fa-icon "ellipsis-v"
+      button.microphone = fa-icon "microphone"
   .helper-tabs
-    button.tab.speed-dial
+    button.tab.speed-dial{ action 'switchTab' 'speedDial' } class="{{if speedDialActive 'active' ''}}"
       span SPEED DIAL
-    button.tab.recents
+    button.tab.recents{ action 'switchTab' 'recents' } class="{{if recentsActive 'active' ''}}"
       span RECENTS
-    button.tab.contact
+    button.tab.contact{ action 'switchTab' 'contacts' } class="{{if contactsActive 'active' ''}}"
       span CONTACTS
-.contacts-list
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
-  .contact
-    i = fa-icon "ellipsis-v"
-    .letter G
-    .first-name John
-    .contact-type Mobile
 
-button.num-pad-btn ∆
+.contacts-list
+  if oneTabSelected
+    if isLoading
+      p ITS LOADING
+    else
+      if speedDialActive
+        each speedDialContacts as |contact|
+          button.contact
+            = fa-icon "ellipsis-v"
+            .letter G
+            .name-info
+              .first-name = contact.firstName
+              .contact-type Mobile
+
+      if recentsActive
+        each recents as |contact|
+          button.contact
+            = fa-icon "ellipsis-v"
+            .letter G
+            .name-info
+              .first-name = contact.firstName
+              .contact-type Mobile
+
+      if contactsActive
+        each contacts as |contact|
+          button.contact
+            = fa-icon "ellipsis-v"
+            .letter G
+            .name-info
+              .first-name = contact.firstName
+              .contact-type Mobile
+  .go-to-num-pad
+    img src="icons/num-pad.svg" width="50px"
