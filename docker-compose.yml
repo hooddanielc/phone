@@ -1,5 +1,5 @@
 builder:
-    image: 'dhoodlum/phone-docker:latest'
+    image: 'rudes/phone-docker:latest'
     container_name: phone_builder
     volumes:
         - '. /data'
