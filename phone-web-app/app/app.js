@@ -14,5 +14,6 @@ App = Ember.Application.extend({
 });
 
 loadInitializers(App, config.modulePrefix);
+window.module = undefined;
 
 export default App;

@@ -4,14 +4,163 @@
 #include <ostream>
 #include <sstream>
 #include <mutex>
+#include <algorithm>
 #include <unordered_map>
+#include <string.h>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
 namespace phone {
+
+
+  // SOME STRANGS
+  std::string XRequestCodeToString(unsigned char request_code) {
+    static const char* const X_REQUEST_CODE_NAMES[] = {
+        "",
+        "CreateWindow",
+        "ChangeWindowAttributes",
+        "GetWindowAttributes",
+        "DestroyWindow",
+        "DestroySubwindows",
+        "ChangeSaveSet",
+        "ReparentWindow",
+        "MapWindow",
+        "MapSubwindows",
+        "UnmapWindow",
+        "UnmapSubwindows",
+        "ConfigureWindow",
+        "CirculateWindow",
+        "GetGeometry",
+        "QueryTree",
+        "InternAtom",
+        "GetAtomName",
+        "ChangeProperty",
+        "DeleteProperty",
+        "GetProperty",
+        "ListProperties",
+        "SetSelectionOwner",
+        "GetSelectionOwner",
+        "ConvertSelection",
+        "SendEvent",
+        "GrabPointer",
+        "UngrabPointer",
+        "GrabButton",
+        "UngrabButton",
+        "ChangeActivePointerGrab",
+        "GrabKeyboard",
+        "UngrabKeyboard",
+        "GrabKey",
+        "UngrabKey",
+        "AllowEvents",
+        "GrabServer",
+        "UngrabServer",
+        "QueryPointer",
+        "GetMotionEvents",
+        "TranslateCoords",
+        "WarpPointer",
+        "SetInputFocus",
+        "GetInputFocus",
+        "QueryKeymap",
+        "OpenFont",
+        "CloseFont",
+        "QueryFont",
+        "QueryTextExtents",
+        "ListFonts",
+        "ListFontsWithInfo",
+        "SetFontPath",
+        "GetFontPath",
+        "CreatePixmap",
+        "FreePixmap",
+        "CreateGC",
+        "ChangeGC",
+        "CopyGC",
+        "SetDashes",
+        "SetClipRectangles",
+        "FreeGC",
+        "ClearArea",
+        "CopyArea",
+        "CopyPlane",
+        "PolyPoint",
+        "PolyLine",
+        "PolySegment",
+        "PolyRectangle",
+        "PolyArc",
+        "FillPoly",
+        "PolyFillRectangle",
+        "PolyFillArc",
+        "PutImage",
+        "GetImage",
+        "PolyText8",
+        "PolyText16",
+        "ImageText8",
+        "ImageText16",
+        "CreateColormap",
+        "FreeColormap",
+        "CopyColormapAndFree",
+        "InstallColormap",
+        "UninstallColormap",
+        "ListInstalledColormaps",
+        "AllocColor",
+        "AllocNamedColor",
+        "AllocColorCells",
+        "AllocColorPlanes",
+        "FreeColors",
+        "StoreColors",
+        "StoreNamedColor",
+        "QueryColors",
+        "LookupColor",
+        "CreateCursor",
+        "CreateGlyphCursor",
+        "FreeCursor",
+        "RecolorCursor",
+        "QueryBestSize",
+        "QueryExtension",
+        "ListExtensions",
+        "ChangeKeyboardMapping",
+        "GetKeyboardMapping",
+        "ChangeKeyboardControl",
+        "GetKeyboardControl",
+        "Bell",
+        "ChangePointerControl",
+        "GetPointerControl",
+        "SetScreenSaver",
+        "GetScreenSaver",
+        "ChangeHosts",
+        "ListHosts",
+        "SetAccessControl",
+        "SetCloseDownMode",
+        "KillClient",
+        "RotateProperties",
+        "ForceScreenSaver",
+        "SetPointerMapping",
+        "GetPointerMapping",
+        "SetModifierMapping",
+        "GetModifierMapping",
+        "NoOperation",
+    };
+    return X_REQUEST_CODE_NAMES[request_code];
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // Whether an existing window manager has been detected
   bool wm_detected = false;
-
 
   // Represents a 2D size.
   template <typename T>
@@ -38,11 +187,104 @@ namespace phone {
     return out << size.to_string();
   }
 
+  // Represents a 2D position.
+  template <typename T>
+  struct Position {
+    T x, y;
+
+    Position() = default;
+    Position(T _x, T _y)
+        : x(_x), y(_y) {
+    }
+
+    std::string to_string() const;
+  };
+
+  template <typename T>
+  std::string Position<T>::to_string() const {
+    std::ostringstream out;
+    out << "(" << x << ", " << y << ")";
+    return out.str();
+  }
+
+  // Represents a 2D vector.
+  template <typename T>
+  struct Vector2D {
+    T x, y;
+
+    Vector2D() = default;
+    Vector2D(T _x, T _y)
+        : x(_x), y(_y) {
+    }
+
+    std::string to_string() const;
+  };
+
+  template <typename T>
+  std::string Vector2D<T>::to_string() const {
+    std::ostringstream out;
+    out << "(" << x << ", " << y << ")";
+    return out.str();
+  }
+
+
+  // Position operators
+  template <typename T>
+  Vector2D<T> operator - (const Position<T>& a, const Position<T>& b) {
+    return Vector2D<T>(a.x - b.x, a.y - b.y);
+  }
+
+  template <typename T>
+  Position<T> operator + (const Position<T>& a, const Vector2D<T> &v) {
+    return Position<T>(a.x + v.x, a.y + v.y);
+  }
+
+  template <typename T>
+  Position<T> operator + (const Vector2D<T> &v, const Position<T>& a) {
+    return Position<T>(a.x + v.x, a.y + v.y);
+  }
+
+  template <typename T>
+  Position<T> operator - (const Position<T>& a, const Vector2D<T> &v) {
+    return Position<T>(a.x - v.x, a.y - v.y);
+  }
+
+  // Size operators.
+  template <typename T>
+  Vector2D<T> operator - (const Size<T>& a, const Size<T>& b) {
+    return Vector2D<T>(a.width - b.width, a.height - b.height);
+  }
+  template <typename T>
+  Size<T> operator + (const Size<T>& a, const Vector2D<T> &v) {
+    return Size<T>(a.width + v.x, a.height + v.y);
+  }
+
+  template <typename T>
+  Size<T> operator + (const Vector2D<T> &v, const Size<T>& a) {
+    return Size<T>(a.width + v.x, a.height + v.y);
+  }
+
+  template <typename T>
+  Size<T> operator - (const Size<T>& a, const Vector2D<T> &v) {
+    return Size<T>(a.width - v.x, a.height - v.y);
+  }
+
   class window_manager_t {
+      // Atom constants.
+      const Atom WM_PROTOCOLS;
+      const Atom WM_DELETE_WINDOW;
       // A mutex for protecting  wm_detected
       std::mutex wm_detected_mutex;
       // Maps top-level windows to their frame windows.
       std::unordered_map<Window, Window> clients;
+
+      // The cursor position at the start of a window move/resize.
+      Position<int> drag_start_pos_;
+      // The position of the affected window at the start of a window
+      // move/resize.
+      Position<int> drag_start_frame_pos_;
+      // The size of the affected window at the start of a window move/resize.
+      Size<int> drag_start_frame_size_;
 
       // unframes a client window.
       void unframe(Window w) {
@@ -69,8 +311,9 @@ namespace phone {
       }
 
       void frame(Window w) {
+        std::cout << "FRAME " << std::endl;
         // Visual properties of the frame to create.
-        const unsigned int BORDER_WIDTH = 3;
+        const unsigned int BORDER_WIDTH = 6;
         const unsigned long BORDER_COLOR = 0xff0000;
         const unsigned long BG_COLOR = 0x0000ff;
 
@@ -112,6 +355,7 @@ namespace phone {
         clients[w] = frame;
         // 8. Grab universal window management actions on client window.
         //   a. Move windows with alt + left button.
+        std::cout << "Grab Btn" << std::endl;
         XGrabButton(
             display,
             Button1,
@@ -138,7 +382,7 @@ namespace phone {
         //   c. Kill windows with alt + f4.
         XGrabKey(
             display,
-            XKeysymToKeycode(display, XK_F4),
+            XKeysymToKeycode(display, XK_F5),
             Mod1Mask,
             w,
             false,
@@ -167,25 +411,14 @@ namespace phone {
       // constructor
       window_manager_t(Display *argdisplay) :
         display(argdisplay),
-        root_window(DefaultRootWindow(display)) {}
+        root_window(DefaultRootWindow(argdisplay)),
+        WM_PROTOCOLS(XInternAtom(argdisplay, "WM_PROTOCOLS", false)),
+        WM_DELETE_WINDOW(XInternAtom(argdisplay, "WM_DELETE_WINDOW", false)) {}
 
       // destructor
       ~window_manager_t() {
         XCloseDisplay(display);
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       // ALl the event handlers in the world
       // Event handlers.
@@ -224,6 +457,9 @@ namespace phone {
       }
 
       void OnConfigureNotify(const XConfigureEvent &e) {
+        std::cout << "The X Value is : " << e.x << std::endl;
+        std::cout << "The Y Value is : " << e.y << std::endl;
+        XMoveWindow(display, e.window, e.x, e.y);
         std::cout << "EVENT HANDLER OnConfigureNotify" << std::endl;
       }
 
@@ -258,6 +494,29 @@ namespace phone {
       }
 
       void OnButtonPress(const XButtonEvent& e) {
+
+        std::cout << "clients.cout ok? " << clients.count(e.window) << std::endl;
+        const Window frame = clients[e.window];
+
+        // 1. Save initial cursor position.
+        drag_start_pos_ = Position<int>(e.x_root, e.y_root);
+
+        // 2. Save initial window info.
+        Window returned_root;
+        int x, y;
+        unsigned width, height, border_width, depth;
+
+        std::cout << "Check geometry ok? " <<
+        XGetGeometry(
+            display,
+            frame,
+            &returned_root,
+            &x, &y,
+            &width, &height,
+            &border_width,
+            &depth);
+        drag_start_frame_pos_ = Position<int>(x, y);
+        drag_start_frame_size_ = Size<int>(width, height);
         std::cout << "EVENT HANDLER OnButtonPress" << std::endl;
       }
 
@@ -266,10 +525,90 @@ namespace phone {
       }
 
       void OnMotionNotify(const XMotionEvent& e) {
+        std::cout << "Check clients count window? "<< clients.count(e.window) << std::endl;
+        const Window frame = clients[e.window];
+        const Position<int> drag_pos(e.x_root, e.y_root);
+        const Vector2D<int> delta = drag_pos - drag_start_pos_;
+
+        if (e.state & Button1Mask ) {
+          std::cout << "Button1Mask" << std::endl;
+          // alt + left button: Move window.
+          const Position<int> dest_frame_pos = drag_start_frame_pos_ + delta;
+          XMoveWindow(
+              display,
+              frame,
+              dest_frame_pos.x, dest_frame_pos.y);
+        } else if (e.state & Button3Mask) {
+          std::cout << "Button 3 mask yo" << std::endl;
+          // alt + right button: Resize window.
+          // Window dimensions cannot be negative.
+          const Vector2D<int> size_delta(
+              std::max(delta.x, -drag_start_frame_size_.width),
+              std::max(delta.y, -drag_start_frame_size_.height));
+          const Size<int> dest_frame_size = drag_start_frame_size_ + size_delta;
+          // 1. Resize frame.
+          XResizeWindow(
+              display,
+              frame,
+              dest_frame_size.width, dest_frame_size.height);
+          // 2. Resize client window.
+          XResizeWindow(
+              display,
+              e.window,
+              dest_frame_size.width, dest_frame_size.height);
+        }
         std::cout << "EVENT HANDLER OnMotionNotify" << std::endl;
       }
 
       void OnKeyPress(const XKeyEvent& e) {
+        if ((e.state & Mod1Mask) && (e.keycode == XKeysymToKeycode(display, XK_F4))) {
+          // alt + f4: Close window.
+          //
+          // There are two ways to tell an X window to close. The first is to send it
+          // a message of type WM_PROTOCOLS and value WM_DELETE_WINDOW. If the client
+          // has not explicitly marked itself as supporting this more civilized
+          // behavior (using XSetWMProtocols()), we kill it with XKillClient().
+          Atom *supported_protocols;
+          int num_supported_protocols;
+          if (
+            XGetWMProtocols(
+              display,
+              e.window,
+              &supported_protocols,
+              &num_supported_protocols) &&
+            (std::find(
+              supported_protocols,
+              supported_protocols + num_supported_protocols,
+              WM_DELETE_WINDOW) != supported_protocols + num_supported_protocols)
+          ) {
+            std::cout << "Gracefully deleting window " << e.window << std::endl;
+            // 1. Construct message.
+            XEvent msg;
+            memset(&msg, 0, sizeof(msg));
+            msg.xclient.type = ClientMessage;
+            msg.xclient.message_type = WM_PROTOCOLS;
+            msg.xclient.window = e.window;
+            msg.xclient.format = 32;
+            msg.xclient.data.l[0] = WM_DELETE_WINDOW;
+            // 2. Send message to window to be closed.
+            std::cout << "SEND MESSAGE TO WINDOW CHECK? "<< XSendEvent(display, e.window, false, 0, &msg) << std::endl;
+          } else {
+            std::cout << "Killing window " << e.window << std::endl;
+            XKillClient(display, e.window);
+          }
+        } else if ((e.state & Mod1Mask) && (e.keycode == XKeysymToKeycode(display, XK_Tab))) {
+          // alt + tab: Switch window.
+          // 1. Find next window.
+          auto i = clients.find(e.window);
+          std::cout << "Check i != clients.end()? " << (i != clients.end()) << std::endl;
+          ++i;
+          if (i == clients.end()) {
+            i = clients.begin();
+          }
+          // 2. Raise and set focus.
+          XRaiseWindow(display, i->second);
+          XSetInputFocus(display, i->first, RevertToPointerRoot, CurrentTime);
+        }
         std::cout << "EVENT HANDLER OnKeyPress" << std::endl;
       }
 
@@ -277,38 +616,42 @@ namespace phone {
         std::cout << "EVENT HANDLER OnKeyRelease" << std::endl;
       }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+      static int on_x_error(Display *display, XErrorEvent *e) {
+        const int MAX_ERROR_TEXT_LENGTH = 1024;
+        char error_text[MAX_ERROR_TEXT_LENGTH];
+        XGetErrorText(display, e->error_code, error_text, sizeof(error_text));
+        std::cout << "ERROR: " << "Received X error:\n"
+                   << "    Request: " << int(e->request_code)
+                   << " - " << XRequestCodeToString(e->request_code) << "\n"
+                   << "    Error code: " << int(e->error_code)
+                   << " - " << error_text << "\n"
+                   << "    Resource ID: " << e->resourceid;
+        // The return value is ignored.
+        return 0;
+      }
 
       // run
       int run() {
         std::cout << "Running" << std::endl;
-        std::lock_guard<std::mutex> lock(window_manager_t::wm_detected_mutex);
 
-        XSetErrorHandler(&window_manager_t::on_wm_detected);
-        XSelectInput(
-          display,
-          root_window,
-          SubstructureRedirectMask | SubstructureNotifyMask
-        );
-        XSync(display, false);
-        if (wm_detected) {
-          std::cout << "Detected another window manager on display " << XDisplayString(display);
-          return 1;
+        {
+          std::lock_guard<std::mutex> lock(window_manager_t::wm_detected_mutex);
+
+          wm_detected = false;
+          XSetErrorHandler(&window_manager_t::on_wm_detected);
+          XSelectInput(
+            display,
+            root_window,
+            SubstructureRedirectMask | SubstructureNotifyMask
+          );
+          XSync(display, false);
+          if (wm_detected) {
+            std::cout << "Detected another window manager on display " << XDisplayString(display);
+            return 1;
+          }
         }
 
-        XSetErrorHandler(&window_manager_t::on_wm_detected);
+        XSetErrorHandler(&window_manager_t::on_x_error);
         //   c. Grab X server to prevent windows from changing under us.
         XGrabServer(display);
 

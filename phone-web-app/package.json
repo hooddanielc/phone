@@ -1,6 +1,7 @@
 {
   "name": "phone-web-app",
   "version": "0.0.0",
+  "main": "main.js",
   "description": "Small description for phone-web-app goes here",
   "private": true,
   "directories": {
@@ -22,6 +23,7 @@
   "devDependencies": {
     "bower": "^1.7.9",
     "broccoli-asset-rev": "^2.4.2",
+    "electron": "^1.4.4",
     "ember-ajax": "^2.0.1",
     "ember-cli": "^2.8.0",
     "ember-cli-app-version": "^1.0.0",
@@ -41,6 +43,7 @@
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.8.0",
     "ember-data-fixture-adapter": "1.13.0",
+    "ember-electron": "^1.10.8",
     "ember-export-application-global": "^1.0.5",
     "ember-font-awesome": "2.2.0",
     "ember-load-initializers": "^0.5.1",
